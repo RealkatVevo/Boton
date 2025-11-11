@@ -3,19 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>¡Feliz Aniversario, Amor!</title>
+    <title>11 de cada mes <3</title>
     
-    <!-- Carga de Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- Configuración para usar un bonito color rosa y la fuente Inter -->
     <script>
         tailwind.config = {
           theme: {
             extend: {
               colors: {
-                'rosa-sorpresa': '#ff69b4', // Un rosa fuerte y lindo (Hot Pink)
-                'fondo-corazon': '#ffe4e1', // Rosa pálido para el fondo (Misty Rose)
+                'rosa-sorpresa': '#ff69b4', 
+                'fondo-corazon': '#ffe4e1', 
               },
               fontFamily: {
                 sans: ['Inter', 'sans-serif'],
@@ -25,14 +23,12 @@
         }
     </script>
     <style>
-        /* Estilos base */
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #fce4ec; /* Fondo muy claro */
-            overflow: hidden; /* Oculta barras de desplazamiento */
+            background-color: #fce4ec; 
+            overflow: hidden; 
         }
 
-        /* 1. Contenedor del Botón (Centrado) */
         #contenedor-boton {
             display: flex;
             justify-content: center;
@@ -45,12 +41,12 @@
             z-index: 10; 
         }
 
-        /* 2. Estilo del Corazón Gigante (El que se despliega) */
+
         .corazon-gigante {
             position: relative;
             width: 350px;
             height: 350px;
-            background-color: #ff69b4; /* Rosa Sorpresa */
+            background-color: #ff69b4; 
             transform: rotate(45deg); 
             display: flex;
             flex-direction: column;
@@ -58,10 +54,10 @@
             align-items: center;
             box-shadow: 0 10px 30px rgba(255, 105, 180, 0.7);
             transition: transform 0.5s ease-out; 
-            z-index: 22; /* El corazón gigante siempre sobre la mayoría de la lluvia */
+            z-index: 22; 
         }
 
-        /* Dibujar las dos "orejas" superiores del corazón */
+
         .corazon-gigante:before,
         .corazon-gigante:after {
             content: "";
@@ -80,10 +76,10 @@
             top: -50%;
         }
 
-        /* Estilo del texto dentro del corazón */
+
         .corazon-gigante .mensaje {
             position: relative;
-            z-index: 20; /* El texto sobre las capas del corazón */
+            z-index: 20; 
             transform: rotate(-45deg); 
             color: white;
             text-align: center;
@@ -112,57 +108,55 @@
             50% { transform: rotate(45deg) scale(1.05); }
         }
 
-        /* Contenedor de la lluvia de elementos */
+
         #rain-container {
             position: fixed;
             inset: 0;
-            z-index: 20; /* La mayoría de los elementos de fondo estarán aquí, debajo del corazón gigante (22) */
+            z-index: 20; 
             pointer-events: none; 
             overflow: hidden; 
         }
         
-        /* Estilo base para los elementos que caen (emojis o imágenes) */
+
         .falling-element {
             position: absolute;
-            bottom: -50px; /* Inicia debajo de la pantalla */
+            bottom: -50px;
             animation: fall linear infinite;
             line-height: 1; 
             opacity: 0.7; 
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1); /* Para emojis */
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1); 
         }
-
-        /* Estilo para los emojis de corazón que caen */
         .falling-element.emoji {
-            font-size: 2.5rem; /* Tamaño del emoji */
+            font-size: 2.5rem; 
         }
 
-        /* Estilo para las imágenes que caen */
+
         .falling-element.image {
-            width: 60px; /* Tamaño de la imagen cayendo */
+            width: 60px; 
             height: 60px;
-            object-fit: cover; /* Para que la imagen se ajuste bien */
-            border-radius: 10%; /* Ligeramente redondeada */
+            object-fit: cover; 
+            border-radius: 10%; 
             box-shadow: 0 0 5px rgba(0,0,0,0.2);
-            border: 2px solid white; /* Un borde blanco para que se vea mejor */
+            border: 2px solid white;
         }
 
-        /* Algunos elementos irán por encima */
+
         .falling-element.front {
-            z-index: 23; /* Un poco por encima del corazón gigante (22) */
+            z-index: 23; 
             opacity: 0.9;
         }
 
         @keyframes fall {
             to {
-                transform: translateY(-105vh); /* Cae un poco más allá de la vista */
-                opacity: 0; /* Desaparece al final */
+                transform: translateY(-105vh);
+                opacity: 0; 
             }
         }
     </style>
 </head>
 <body>
 
-    <!-- Contenedor Inicial - Botón Centrado -->
+
     <div id="contenedor-boton">
         <button 
             id="botonSorpresa" 
@@ -172,21 +166,21 @@
         </button>
     </div>
 
-    <!-- Contenedor de la Sorpresa - Oculto Inicialmente -->
+
     <div 
         id="contenedorSorpresa" 
         class="hidden fixed inset-0 bg-fondo-corazon flex justify-center items-center z-20 transition-opacity duration-1000">
         
-        <!-- El Corazón Gigante -->
+
         <div id="corazon-display" class="corazon-gigante latido">
             <div class="mensaje">
-                <p>Feliz 1 mes andanto :D</p>
-                <p class="te-quiero">TE QUIERO MUCHIIIIISMO AME! &lt;3</p>
+                <p>Feliz primer mes andando :D</p>
+                <p class="te-quiero">¡TE QUIERO MUCHIIIIISMO AME! &lt;3</p>
             </div>
         </div>
     </div>
     
-    <!-- Contenedor para la lluvia de corazones -->
+
     <div id="rain-container"></div>
 
     <script>
@@ -195,19 +189,12 @@
         const rainContainer = document.getElementById('rain-container');
         let intervalId;
 
-        // =================================================================
-        //  👇👇👇 CONFIGURACIÓN DE IMAGEN 👇👇👇
-        // =================================================================
-        
-        // Usamos una ruta relativa. Esto significa "busca image.png en la misma carpeta que este archivo"
         const imageUrl = 'image.png';
 
-        // =================================================================
 
-        // Función para crear y animar un elemento que cae (emoji o imagen)
         function crearElementoCayendo() {
-            // 40% de probabilidad de ser una imagen, 60% un emoji
-            const isImage = Math.random() < 0.4; 
+
+            const isImage = Math.random() < 0.2; 
             let element;
 
             if (isImage) {
@@ -216,10 +203,10 @@
                 element.classList.add('image');
                 element.alt = 'Foto';
                 
-                // Si la imagen falla al cargar (por ejemplo, si olvidaste subirla), usa un emoji
+
                 element.onerror = function() {
                     this.replaceWith(crearEmojiRespaldo());
-                    // Opcional: avisa en consola
+
                     console.warn('No se encontró image.png. Asegúrate de subirla a GitHub con ese nombre exacto.');
                 };
 
@@ -282,3 +269,4 @@
     </script>
 </body>
 </html>
+
