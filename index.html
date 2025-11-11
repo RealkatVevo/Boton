@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Boton</title>
+    <!-- Carga de Tailwind CSS --><script src="https://cdn.tailwindcss.com"></script>
+    <!-- Configuración para usar un bonito color rosa y la fuente Inter --><script>
+        tailwind.config = {
+          theme: {
+            extend: {
+              colors: {
+                'rosa-sorpresa': '#ff69b4', 
+                'fondo-corazon': '#ffe4e1', 
+              },
+              fontFamily: {
+                sans: ['Inter', 'sans-serif'],
+              },
+            }
+          }
+        }
+    </script>
+    <style>
+        /* Estilos base */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #fce4ec; 
+            overflow: hidden; 
+        }
+
+        #contenedor-boton {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            width: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 10; 
+        }
+
+        .corazon-gigante {
+            position: relative;
+            width: 350px;
+            height: 350px;
+            background-color: #ff69b4; 
+            transform: rotate(45deg); 
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 10px 30px rgba(255, 105, 180, 0.7);
+            transition: transform 0.5s ease-out; 
+            z-index: 22; 
+        }
+
+
+        .corazon-gigante:before,
+        .corazon-gigante:after {
+            content: "";
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-color: #ff69b4;
+            border-radius: 50%;
+        }
+
+        .corazon-gigante:before {
+            left: -50%;
+        }
+
+        .corazon-gigante:after {
+            top: -50%;
+        }
+
+
+        .corazon-gigante .mensaje {
+            position: relative;
+            z-index: 20; 
+            transform: rotate(-45deg); 
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .corazon-gigante .mensaje p {
+            font-size: 1.5rem;
+            line-height: 1.2;
+            font-weight: 700;
+        }
+
+        .corazon-gigante .mensaje .te-quiero {
+            font-size: 2.5rem;
+            margin-top: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+
+        .latido {
+            animation: latido-animacion 1.5s infinite;
+        }
+
+        @keyframes latido-animacion {
+            0%, 100% { transform: rotate(45deg) scale(1); }
+            50% { transform: rotate(45deg) scale(1.05); }
+        }
+
+        #rain-container {
+            position: fixed;
+            inset: 0;
+            z-index: 20; 
+            pointer-events: none; 
+            overflow: hidden; 
+        }
+        
+        .falling-heart {
+            position: absolute;
+            bottom: -50px; 
+            animation: fall linear infinite;
+            font-size: 2.5rem; 
+            line-height: 1; 
+            opacity: 0.7; 
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+        }
+
+        .falling-heart.front {
+            z-index: 23; 
+            opacity: 0.9;
+        }
+
+        @keyframes fall {
+            to {
+                transform: translateY(-105vh); 
+                opacity: 0; 
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Contenedor Inicial - Botón Centrado --><div id="contenedor-boton">
+        <button 
+            id="botonSorpresa" 
+            onclick="mostrarSorpresa()"
+            class="px-8 py-4 bg-rosa-sorpresa text-white text-2xl font-bold rounded-xl shadow-lg hover:bg-pink-600 transition duration-300 transform hover:scale-105 active:scale-95 focus:outline-none focus:ring-4 focus:ring-pink-300">
+            Pulsame
+        </button>
+    </div>
+
+    <!-- Contenedor de la Sorpresa - Oculto Inicialmente --><div 
+        id="contenedorSorpresa" 
+        class="hidden fixed inset-0 bg-fondo-corazon flex justify-center items-center z-20 transition-opacity duration-1000">
+        
+        <!-- El Corazón Gigante --><div id="corazon-display" class="corazon-gigante latido">
+            <div class="mensaje">
+                <p>Feliz 1 mes andanto :D</p>
+                <p class="te-quiero">TE QUIERO MUCHIIIIISMO AME! &lt;3</p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Contenedor para la lluvia de corazones --><div id="rain-container"></div>
+
+
+    <script>
+        const botonSorpresa = document.getElementById('botonSorpresa');
+        const contenedorSorpresa = document.getElementById('contenedorSorpresa');
+        const rainContainer = document.getElementById('rain-container');
+        let intervalId;
+
+        function crearCorazon() {
+            const heart = document.createElement('span'); 
+            heart.classList.add('falling-heart');
+            heart.textContent = '❤️'; 
+            
+            const size = Math.random() * 1.5 + 1; 
+            heart.style.fontSize = `${size}rem`;
+            heart.style.left = `${Math.random() * 100}vw`; 
+            heart.style.animationDuration = `${Math.random() * 6 + 4}s`; 
+            heart.style.animationDelay = `${Math.random() * 2}s`; 
+            
+
+            if (Math.random() < 0.2) { 
+                heart.classList.add('front');
+            }
+
+            rainContainer.appendChild(heart);
+            
+
+            setTimeout(() => {
+                heart.remove();
+            }, 10000); 
+        }
+
+
+        function iniciarLluvia() {
+            intervalId = setInterval(crearCorazon, 150); 
+        }
+
+        function mostrarSorpresa() {
+            document.getElementById('contenedor-boton').style.display = 'none';
+
+            contenedorSorpresa.classList.remove('hidden');
+            
+            iniciarLluvia();
+        }
+
+        window.addEventListener('beforeunload', () => {
+            if (intervalId) {
+                clearInterval(intervalId);
+            }
+        });
+    </script>
+
+</body>
+</html>
