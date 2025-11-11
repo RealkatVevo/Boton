@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>11 de cada mes <3</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
@@ -27,6 +27,7 @@
             font-family: 'Inter', sans-serif;
             background-color: #fce4ec; 
             overflow: hidden; 
+            touch-action: none; /* Previene zoom accidental en toques rápidos */
         }
 
         #contenedor-boton {
@@ -41,11 +42,15 @@
             z-index: 10; 
         }
 
-
+        /* --- ESTILOS DEL CORAZÓN RESPONSIVO --- */
         .corazon-gigante {
             position: relative;
-            width: 350px;
-            height: 350px;
+            /* Móvil: 70% del ancho menor de la pantalla */
+            width: 70vmin; 
+            height: 70vmin;
+            /* Escritorio: Tope máximo de 350px */
+            max-width: 350px;
+            max-height: 350px;
             background-color: #ff69b4; 
             transform: rotate(45deg); 
             display: flex;
@@ -55,8 +60,8 @@
             box-shadow: 0 10px 30px rgba(255, 105, 180, 0.7);
             transition: transform 0.5s ease-out; 
             z-index: 22; 
+            margin-bottom: 20px; /* Un poco de espacio visual */
         }
-
 
         .corazon-gigante:before,
         .corazon-gigante:after {
@@ -76,26 +81,42 @@
             top: -50%;
         }
 
-
         .corazon-gigante .mensaje {
             position: relative;
             z-index: 20; 
             transform: rotate(-45deg); 
             color: white;
             text-align: center;
-            padding: 20px;
+            /* Ancho máximo para que el texto no toque los bordes curvos */
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
         }
 
         .corazon-gigante .mensaje p {
-            font-size: 1.5rem;
+            font-size: 1.2rem; /* Tamaño base más pequeño para móvil */
             line-height: 1.2;
             font-weight: 700;
+            margin: 0;
         }
 
         .corazon-gigante .mensaje .te-quiero {
-            font-size: 2.5rem;
-            margin-top: 10px;
+            font-size: 1.8rem; /* Tamaño base más pequeño para móvil */
+            margin-top: 8px;
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+            padding: 0 10px;
+        }
+
+        /* Reglas especificas para pantallas más grandes (PC/Tablet) */
+        @media (min-width: 768px) {
+            .corazon-gigante .mensaje p {
+                font-size: 1.5rem;
+            }
+            .corazon-gigante .mensaje .te-quiero {
+                font-size: 2.5rem;
+            }
         }
 
         /* Animación de latido */
@@ -108,7 +129,6 @@
             50% { transform: rotate(45deg) scale(1.05); }
         }
 
-
         #rain-container {
             position: fixed;
             inset: 0;
@@ -117,29 +137,34 @@
             overflow: hidden; 
         }
         
-
         .falling-element {
             position: absolute;
-            bottom: -50px;
+            bottom: -80px; /* Empezar más abajo para que no aparezca de golpe */
             animation: fall linear infinite;
             line-height: 1; 
             opacity: 0.7; 
             text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1); 
         }
+
         .falling-element.emoji {
-            font-size: 2.5rem; 
+            font-size: 1.8rem; /* Emojis un poco más chicos en móvil */
         }
 
+        /* Ajuste de emojis para PC */
+        @media (min-width: 768px) {
+            .falling-element.emoji {
+                font-size: 2.5rem; 
+            }
+        }
 
         .falling-element.image {
-            width: 60px; 
-            height: 60px;
+            width: 50px; 
+            height: 50px;
             object-fit: cover; 
             border-radius: 10%; 
             box-shadow: 0 0 5px rgba(0,0,0,0.2);
             border: 2px solid white;
         }
-
 
         .falling-element.front {
             z-index: 23; 
@@ -148,7 +173,7 @@
 
         @keyframes fall {
             to {
-                transform: translateY(-105vh);
+                transform: translateY(-110vh); /* Subir hasta salir de pantalla */
                 opacity: 0; 
             }
         }
@@ -156,31 +181,27 @@
 </head>
 <body>
 
-
     <div id="contenedor-boton">
         <button 
             id="botonSorpresa" 
             onclick="mostrarSorpresa()"
-            class="px-8 py-4 bg-rosa-sorpresa text-white text-2xl font-bold rounded-xl shadow-lg hover:bg-pink-600 transition duration-300 transform hover:scale-105 active:scale-95 focus:outline-none focus:ring-4 focus:ring-pink-300">
-            Pulsame
+            class="px-8 py-4 bg-rosa-sorpresa text-white text-xl md:text-2xl font-bold rounded-xl shadow-lg hover:bg-pink-600 transition duration-300 transform hover:scale-105 active:scale-95 focus:outline-none focus:ring-4 focus:ring-pink-300 select-none tap-highlight-transparent">
+            Púlsame
         </button>
     </div>
 
-
     <div 
         id="contenedorSorpresa" 
-        class="hidden fixed inset-0 bg-fondo-corazon flex justify-center items-center z-20 transition-opacity duration-1000">
+        class="hidden fixed inset-0 bg-fondo-corazon flex justify-center items-center z-20 transition-opacity duration-1000 p-4">
         
-
         <div id="corazon-display" class="corazon-gigante latido">
             <div class="mensaje">
                 <p>Feliz primer mes andando :D</p>
-                <p class="te-quiero">¡TE QUIERO MUCHIIIIISMO AME! &lt;3</p>
+                <p class="te-quiero">¡TE QUIERO MUCHÍSIMO AME! &lt;3</p>
             </div>
         </div>
     </div>
     
-
     <div id="rain-container"></div>
 
     <script>
@@ -189,11 +210,10 @@
         const rainContainer = document.getElementById('rain-container');
         let intervalId;
 
-        const imageUrl = 'image.png';
-
+        // Asegúrate de que esta imagen exista o se usaran los emojis de respaldo
+        const imageUrl = 'image.png'; 
 
         function crearElementoCayendo() {
-
             const isImage = Math.random() < 0.2; 
             let element;
 
@@ -203,11 +223,8 @@
                 element.classList.add('image');
                 element.alt = 'Foto';
                 
-
                 element.onerror = function() {
                     this.replaceWith(crearEmojiRespaldo());
-
-                    console.warn('No se encontró image.png. Asegúrate de subirla a GitHub con ese nombre exacto.');
                 };
 
             } else {
@@ -219,17 +236,21 @@
             if (element) { 
                 element.classList.add('falling-element');
                 
-                const size = Math.random() * 1.5 + 1; 
+                const sizeRandom = Math.random() * 1.5 + 0.8; // Tamaño variable ligeramente ajustado
+                
                 if (!isImage) { 
-                    element.style.fontSize = `${size}rem`;
+                    // El tamaño se controla via CSS base + escala aquí si quieres, 
+                    // pero mejor dejar que CSS controle el responsivo base
+                    element.style.fontSize = `${sizeRandom}rem`;
                 } else { 
-                    element.style.width = `${Math.random() * 40 + 50}px`; 
-                    element.style.height = element.style.width; 
+                    const imgSize = Math.random() * 30 + 40; // Entre 40px y 70px para móvil
+                    element.style.width = `${imgSize}px`; 
+                    element.style.height = `${imgSize}px`; 
                 }
 
-                element.style.left = `${Math.random() * 100}vw`; 
-                element.style.animationDuration = `${Math.random() * 6 + 4}s`; 
-                element.style.animationDelay = `${Math.random() * 2}s`; 
+                element.style.left = `${Math.random() * 90}vw`; // Evitar que se corten en el borde derecho extremo
+                element.style.animationDuration = `${Math.random() * 5 + 4}s`; 
+                element.style.animationDelay = `0s`; // Iniciar inmediatamente
                 
                 if (Math.random() < 0.3) { 
                     element.classList.add('front');
@@ -247,12 +268,14 @@
             const span = document.createElement('span');
             span.textContent = '😍';
             span.classList.add('emoji', 'falling-element');
-            span.style.fontSize = '2rem';
+            // El tamaño se ajustará por CSS
             return span;
         }
 
         function iniciarLluvia() {
-            intervalId = setInterval(crearElementoCayendo, 150); 
+            // Reducir ligeramente la cantidad de elementos en móvil para rendimiento
+            const intervalo = window.innerWidth < 600 ? 250 : 150;
+            intervalId = setInterval(crearElementoCayendo, intervalo); 
         }
 
         function mostrarSorpresa() {
@@ -269,4 +292,3 @@
     </script>
 </body>
 </html>
-
