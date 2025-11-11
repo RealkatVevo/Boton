@@ -3,15 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Boton</title>
-    <!-- Carga de Tailwind CSS --><script src="https://cdn.tailwindcss.com"></script>
-    <!-- Configuración para usar un bonito color rosa y la fuente Inter --><script>
+    <title>¡Feliz Aniversario, Amor!</title>
+    
+    <!-- Carga de Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Configuración para usar un bonito color rosa y la fuente Inter -->
+    <script>
         tailwind.config = {
           theme: {
             extend: {
               colors: {
-                'rosa-sorpresa': '#ff69b4', 
-                'fondo-corazon': '#ffe4e1', 
+                'rosa-sorpresa': '#ff69b4', // Un rosa fuerte y lindo (Hot Pink)
+                'fondo-corazon': '#ffe4e1', // Rosa pálido para el fondo (Misty Rose)
               },
               fontFamily: {
                 sans: ['Inter', 'sans-serif'],
@@ -24,10 +28,11 @@
         /* Estilos base */
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #fce4ec; 
-            overflow: hidden; 
+            background-color: #fce4ec; /* Fondo muy claro */
+            overflow: hidden; /* Oculta barras de desplazamiento */
         }
 
+        /* 1. Contenedor del Botón (Centrado) */
         #contenedor-boton {
             display: flex;
             justify-content: center;
@@ -40,11 +45,12 @@
             z-index: 10; 
         }
 
+        /* 2. Estilo del Corazón Gigante (El que se despliega) */
         .corazon-gigante {
             position: relative;
             width: 350px;
             height: 350px;
-            background-color: #ff69b4; 
+            background-color: #ff69b4; /* Rosa Sorpresa */
             transform: rotate(45deg); 
             display: flex;
             flex-direction: column;
@@ -52,10 +58,10 @@
             align-items: center;
             box-shadow: 0 10px 30px rgba(255, 105, 180, 0.7);
             transition: transform 0.5s ease-out; 
-            z-index: 22; 
+            z-index: 22; /* El corazón gigante siempre sobre la mayoría de la lluvia */
         }
 
-
+        /* Dibujar las dos "orejas" superiores del corazón */
         .corazon-gigante:before,
         .corazon-gigante:after {
             content: "";
@@ -74,10 +80,10 @@
             top: -50%;
         }
 
-
+        /* Estilo del texto dentro del corazón */
         .corazon-gigante .mensaje {
             position: relative;
-            z-index: 20; 
+            z-index: 20; /* El texto sobre las capas del corazón */
             transform: rotate(-45deg); 
             color: white;
             text-align: center;
@@ -96,7 +102,7 @@
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
         }
 
-
+        /* Animación de latido */
         .latido {
             animation: latido-animacion 1.5s infinite;
         }
@@ -106,40 +112,58 @@
             50% { transform: rotate(45deg) scale(1.05); }
         }
 
+        /* Contenedor de la lluvia de elementos */
         #rain-container {
             position: fixed;
             inset: 0;
-            z-index: 20; 
+            z-index: 20; /* La mayoría de los elementos de fondo estarán aquí, debajo del corazón gigante (22) */
             pointer-events: none; 
             overflow: hidden; 
         }
         
-        .falling-heart {
+        /* Estilo base para los elementos que caen (emojis o imágenes) */
+        .falling-element {
             position: absolute;
-            bottom: -50px; 
+            bottom: -50px; /* Inicia debajo de la pantalla */
             animation: fall linear infinite;
-            font-size: 2.5rem; 
             line-height: 1; 
             opacity: 0.7; 
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1); /* Para emojis */
         }
 
-        .falling-heart.front {
-            z-index: 23; 
+        /* Estilo para los emojis de corazón que caen */
+        .falling-element.emoji {
+            font-size: 2.5rem; /* Tamaño del emoji */
+        }
+
+        /* Estilo para las imágenes que caen */
+        .falling-element.image {
+            width: 60px; /* Tamaño de la imagen cayendo */
+            height: 60px;
+            object-fit: cover; /* Para que la imagen se ajuste bien */
+            border-radius: 10%; /* Ligeramente redondeada */
+            box-shadow: 0 0 5px rgba(0,0,0,0.2);
+            border: 2px solid white; /* Un borde blanco para que se vea mejor */
+        }
+
+        /* Algunos elementos irán por encima */
+        .falling-element.front {
+            z-index: 23; /* Un poco por encima del corazón gigante (22) */
             opacity: 0.9;
         }
 
         @keyframes fall {
             to {
-                transform: translateY(-105vh); 
-                opacity: 0; 
+                transform: translateY(-105vh); /* Cae un poco más allá de la vista */
+                opacity: 0; /* Desaparece al final */
             }
         }
     </style>
 </head>
 <body>
 
-    <!-- Contenedor Inicial - Botón Centrado --><div id="contenedor-boton">
+    <!-- Contenedor Inicial - Botón Centrado -->
+    <div id="contenedor-boton">
         <button 
             id="botonSorpresa" 
             onclick="mostrarSorpresa()"
@@ -148,11 +172,13 @@
         </button>
     </div>
 
-    <!-- Contenedor de la Sorpresa - Oculto Inicialmente --><div 
+    <!-- Contenedor de la Sorpresa - Oculto Inicialmente -->
+    <div 
         id="contenedorSorpresa" 
         class="hidden fixed inset-0 bg-fondo-corazon flex justify-center items-center z-20 transition-opacity duration-1000">
         
-        <!-- El Corazón Gigante --><div id="corazon-display" class="corazon-gigante latido">
+        <!-- El Corazón Gigante -->
+        <div id="corazon-display" class="corazon-gigante latido">
             <div class="mensaje">
                 <p>Feliz 1 mes andanto :D</p>
                 <p class="te-quiero">TE QUIERO MUCHIIIIISMO AME! &lt;3</p>
@@ -160,8 +186,8 @@
         </div>
     </div>
     
-    <!-- Contenedor para la lluvia de corazones --><div id="rain-container"></div>
-
+    <!-- Contenedor para la lluvia de corazones -->
+    <div id="rain-container"></div>
 
     <script>
         const botonSorpresa = document.getElementById('botonSorpresa');
@@ -169,40 +195,82 @@
         const rainContainer = document.getElementById('rain-container');
         let intervalId;
 
-        function crearCorazon() {
-            const heart = document.createElement('span'); 
-            heart.classList.add('falling-heart');
-            heart.textContent = '❤️'; 
-            
-            const size = Math.random() * 1.5 + 1; 
-            heart.style.fontSize = `${size}rem`;
-            heart.style.left = `${Math.random() * 100}vw`; 
-            heart.style.animationDuration = `${Math.random() * 6 + 4}s`; 
-            heart.style.animationDelay = `${Math.random() * 2}s`; 
-            
+        // =================================================================
+        //  👇👇👇 CONFIGURACIÓN DE IMAGEN 👇👇👇
+        // =================================================================
+        
+        // Usamos una ruta relativa. Esto significa "busca image.png en la misma carpeta que este archivo"
+        const imageUrl = 'image.png';
 
-            if (Math.random() < 0.2) { 
-                heart.classList.add('front');
+        // =================================================================
+
+        // Función para crear y animar un elemento que cae (emoji o imagen)
+        function crearElementoCayendo() {
+            // 40% de probabilidad de ser una imagen, 60% un emoji
+            const isImage = Math.random() < 0.4; 
+            let element;
+
+            if (isImage) {
+                element = document.createElement('img');
+                element.src = imageUrl;
+                element.classList.add('image');
+                element.alt = 'Foto';
+                
+                // Si la imagen falla al cargar (por ejemplo, si olvidaste subirla), usa un emoji
+                element.onerror = function() {
+                    this.replaceWith(crearEmojiRespaldo());
+                    // Opcional: avisa en consola
+                    console.warn('No se encontró image.png. Asegúrate de subirla a GitHub con ese nombre exacto.');
+                };
+
+            } else {
+                element = document.createElement('span');
+                element.textContent = '❤️'; 
+                element.classList.add('emoji');
             }
-
-            rainContainer.appendChild(heart);
             
+            if (element) { 
+                element.classList.add('falling-element');
+                
+                const size = Math.random() * 1.5 + 1; 
+                if (!isImage) { 
+                    element.style.fontSize = `${size}rem`;
+                } else { 
+                    element.style.width = `${Math.random() * 40 + 50}px`; 
+                    element.style.height = element.style.width; 
+                }
 
-            setTimeout(() => {
-                heart.remove();
-            }, 10000); 
+                element.style.left = `${Math.random() * 100}vw`; 
+                element.style.animationDuration = `${Math.random() * 6 + 4}s`; 
+                element.style.animationDelay = `${Math.random() * 2}s`; 
+                
+                if (Math.random() < 0.3) { 
+                    element.classList.add('front');
+                }
+
+                rainContainer.appendChild(element);
+                
+                setTimeout(() => {
+                    element.remove();
+                }, 10000); 
+            }
         }
 
+        function crearEmojiRespaldo() {
+            const span = document.createElement('span');
+            span.textContent = '😍';
+            span.classList.add('emoji', 'falling-element');
+            span.style.fontSize = '2rem';
+            return span;
+        }
 
         function iniciarLluvia() {
-            intervalId = setInterval(crearCorazon, 150); 
+            intervalId = setInterval(crearElementoCayendo, 150); 
         }
 
         function mostrarSorpresa() {
             document.getElementById('contenedor-boton').style.display = 'none';
-
             contenedorSorpresa.classList.remove('hidden');
-            
             iniciarLluvia();
         }
 
@@ -212,6 +280,5 @@
             }
         });
     </script>
-
 </body>
 </html>
